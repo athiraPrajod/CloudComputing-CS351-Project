@@ -18,8 +18,8 @@ class Database(object):
 
     @staticmethod
     def insert(collection, data):
-        #Database.DATABASE[collection].insert(data)
-        Database.COLLECTION.insert(data)
+        Database.DATABASE[collection].insert_one(data)
+        #Database.COLLECTION.insert(data)
 
     @staticmethod
     def find(collection, query):

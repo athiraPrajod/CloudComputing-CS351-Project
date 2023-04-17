@@ -1,15 +1,19 @@
 from flask import Flask, render_template, request, session, make_response
 from pymongo.mongo_client import MongoClient
 
-from src.common.database import Database
-from src.models.blog import Blog
-from src.models.post import Post
-from src.models.user import User
+import db
+
+from common.database import Database
+from models.blog import Blog
+from models.post import Post
+from models.user import User
 
 uri = "mongodb+srv://athira_p:cc-proj@cc-project.jz0cu2o.mongodb.net/?retryWrites=true&w=majority"
 
 # Create a new client and connect to the server
+#client = MongoClient('mongodb://localhost:27017/')
 client = MongoClient(uri)
+db = client['blogs']
 
 # Send a ping to confirm a successful connection
 try:
@@ -34,6 +38,11 @@ app.secret_key = "olga"
 @app.route('/')
 def home_template():
     return render_template('home.html')
+
+@app.route("/test")
+def test():
+    db.db.collection.insert_one({"name": "John", "blog_id": 1, "blog_name":"test blog"})
+    return "Connected to the data base!"
 
 
 @app.route('/login')  # www.my_site.com/api/login
@@ -89,6 +98,7 @@ def user_blogs(user_id=None):
 
 
 @app.route('/posts/<string:blog_id>')
+@app.route('/posts')
 def blog_posts(blog_id):
     blog = Blog.from_mongo(blog_id)
     posts = blog.get_posts()
@@ -127,4 +137,4 @@ def create_new_post(blog_id):
 
 
 if __name__ == '__main__':
-    app.run(port=4988, debug=True)
+    app.run(port=5000, host='0.0.0.0', debug=True)

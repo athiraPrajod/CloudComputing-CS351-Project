@@ -1,23 +1,12 @@
-app:
-  build: .
-  command: python -m flask run
-  ports:
-    - "5000:5000"
-  volumes:
-    - .:/app
-  links:
-    - db
-db:
-  image: mongo:latest
-  hostname: test_mongodb
-  environment:
-    - MONGO_INITDB_DATABASE=cc-project
-    - MONGO_INITDB_ROOT_USERNAME=athira_p
-    - MONGO_INITDB_ROOT_PASSWORD=cc-proj
-  volumes:
-    - ./init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
-  ports:
-    - 27017:27017
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb+srv://athira_p:cc-proj@cc-project.jz0cu2o.mongodb.net/?retryWrites=true&w=majority
+      - MONGO_DBNAME=cc-project
 
 
 # version: '3'
@@ -66,7 +55,7 @@ db:
 
 #   webserver:
 #     build:
-#       context: nginx
+#       context: /home/athira/CloudComputing/Project/app/nginx
 #       dockerfile: Dockerfile
 #     image: digitalocean.com/webserver:latest
 #     container_name: webserver
@@ -77,7 +66,7 @@ db:
 #       APP_DEBUG: "false"
 #       SERVICE_NAME: "webserver"
 #     ports:
-#       - "80:80"
+#       - "82:82"
 #       - "443:443"
 #     volumes:
 #       - nginxdata:/var/log/nginx

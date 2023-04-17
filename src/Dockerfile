@@ -1,24 +1,32 @@
-FROM python:3.6.8-alpine3.9
+FROM python:3.8-slim-buster
 
 LABEL MAINTAINER="Athira P <example@domain.com>"
 
 ENV GROUP_ID=1000 \
     USER_ID=1000
 
-# WORKDIR /var/www/
+#WORKDIR /app
+WORKDIR /python-docker
 
-# ADD . /var/www/
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
 
-ADD . /app
-WORKDIR /app
-RUN pip install -r requirements.txt
-RUN pip install gunicorn
-
-RUN addgroup -g $GROUP_ID www
-RUN adduser -D -u $USER_ID -G www www -s /bin/sh
-
-USER www
+COPY . .
 
 EXPOSE 5000
 
-CMD [ "gunicorn", "-w", "4", "--bind", "0.0.0.0:5000", "wsgi"]
+CMD [ "python", "app.py" ]
+
+# ADD . /app
+# WORKDIR /app
+# RUN pip install -r requirements.txt
+# RUN pip install gunicorn
+
+# RUN addgroup -g $GROUP_ID www
+# RUN adduser -D -u $USER_ID -G www www -s /bin/sh
+
+# USER www
+
+#EXPOSE 5000
+
+# CMD [ "gunicorn", "-w", "4", "--bind", "0.0.0.0:5000", "wsgi"]
