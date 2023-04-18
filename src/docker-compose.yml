@@ -4,9 +4,22 @@ services:
     build: .
     ports:
       - "5000:5000"
+    # environment:
+    #   - MONGO_URI=mongodb+srv://athira_p:cc-proj@cc-project.jz0cu2o.mongodb.net/?retryWrites=true&w=majority
+    #   - MONGO_DBNAME=cc-project
+    links:
+      - db
+  db:
+    image: mongo
+    hostname: mongo
     environment:
-      - MONGO_URI=mongodb+srv://athira_p:cc-proj@cc-project.jz0cu2o.mongodb.net/?retryWrites=true&w=majority
-      - MONGO_DBNAME=cc-project
+      - MONGO_INITDB_DATABASE=cc-project
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+    volumes:
+      - ./init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
+    ports:
+      - 27018:27017
 
 
 # version: '3'

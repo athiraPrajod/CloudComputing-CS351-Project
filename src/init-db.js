@@ -1,20 +1,10 @@
 db = db.getSiblingDB("cc-project");
-db.animal_tb.drop();
+//db.blogs.drop();
 
-db.animal_tb.insertMany([
+db.blogs.insert([
     {
-        "id": 1,
-        "name": "Lion",
-        "type": "wild"
-    },
-    {
-        "id": 2,
-        "name": "Cow",
-        "type": "domestic"
-    },
-    {
-        "id": 3,
-        "name": "Tiger",
-        "type": "wild"
-    },
+        "name": "John", 
+        "blog_id": 1, 
+        "blog_name":"test blog"
+    }
 ]);
