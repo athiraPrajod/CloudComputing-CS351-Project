@@ -13,6 +13,8 @@ conn_string = f'mongodb://{user}:{password}@{host}:{port}'
 
 db = MongoClient(conn_string).blog
 
+
+
 @app.route('/')
 def home():
     posts = list(db.posts.find({}))
